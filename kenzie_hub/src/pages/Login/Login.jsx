@@ -1,13 +1,13 @@
+import { useNavigate } from "react-router-dom";
+
 import Logo from "@assets/Logo.svg";
-import {
-  Container,
-  Content,
-  AnimationContainer,
-} from "@pages/Login/Login.style";
+import { Container, Content, AnimationContainer } from "./Login.style";
 import Input from "@components/Input";
 import { Button } from "@components/Button";
 
 const Login = () => {
+  const navigate = useNavigate();
+
   return (
     <Container>
       <Content>
@@ -30,7 +30,7 @@ const Login = () => {
             <Button pinkSchema>Entrar</Button>
           </form>
           <p>Ainda não possui uma conta?</p>
-          <Button>Cadastre-se</Button>
+          <Button onClick={() => navigate("/signup")}>Cadastre-se</Button>
         </AnimationContainer>
       </Content>
     </Container>
