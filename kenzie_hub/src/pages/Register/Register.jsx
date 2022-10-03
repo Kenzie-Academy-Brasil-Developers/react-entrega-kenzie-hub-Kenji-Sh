@@ -3,7 +3,8 @@ import { useNavigate } from "react-router-dom";
 import Logo from "@assets/Logo.svg";
 import { Container, Content, AnimationContainer } from "./Register.style";
 import Input from "@components/Input";
-import { Button } from "@components/Button";
+import { Button, SmallButton } from "@components/Button";
+import Select from "@components/Select";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -11,10 +12,14 @@ const Login = () => {
   return (
     <Container>
       <Content>
-        <img src={Logo} alt="logo" />
+        <div>
+          <img src={Logo} alt="logo" />
+          <SmallButton onClick={() => navigate(-1)}>Voltar</SmallButton>
+        </div>
         <AnimationContainer>
           <form>
-            <h1>Registrar</h1>
+            <h1>Crie sua conta</h1>
+            <p>Rápido e grátis, vamos nessa</p>
             <Input
               name="nome"
               label="Nome"
@@ -51,16 +56,9 @@ const Login = () => {
               placeholder="Opção de contato"
               type="text"
             />
-            <Input
-              name="password"
-              label="Selecionar módulo"
-              placeholder="Digite sua senha"
-              type="password"
-            />
+            <Select name="moduleSelect" label="Selecionar módulo" />
             <Button pinkSchema>Cadastrar</Button>
           </form>
-          <p>Ainda não possui uma conta?</p>
-          <Button onClick={() => navigate("/")}>Cadastre-se</Button>
         </AnimationContainer>
       </Content>
     </Container>

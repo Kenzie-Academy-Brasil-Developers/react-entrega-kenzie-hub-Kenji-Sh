@@ -16,12 +16,14 @@ const Login = () => {
           <form>
             <h1>Login</h1>
             <Input
+              withBorder
               name="email"
               label="Email"
               placeholder="Digite seu email"
               type="email"
             />
             <Input
+              withBorder
               name="password"
               label="Senha"
               placeholder="Digite sua senha"

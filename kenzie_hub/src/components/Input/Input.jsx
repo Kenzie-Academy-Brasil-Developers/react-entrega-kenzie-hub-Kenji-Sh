@@ -1,11 +1,11 @@
 import { Container, InputContainer } from "./Input.style";
 
-const Input = ({ label, name, ...rest }) => {
+const Input = ({ withBorder, label, name, ...rest }) => {
   return (
     <Container>
       <label htmlFor={name}>{label}</label>
-      <InputContainer>
-        <input name={name} {...rest}/>
+      <InputContainer withBorder={withBorder}>
+        <input name={name} {...rest} />
       </InputContainer>
     </Container>
   );

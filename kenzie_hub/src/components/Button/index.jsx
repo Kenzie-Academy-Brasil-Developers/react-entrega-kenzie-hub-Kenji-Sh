@@ -1,1 +1,1 @@
-export { Button } from "./Button.style";
+export { Button, SmallButton } from "./Button.style";
