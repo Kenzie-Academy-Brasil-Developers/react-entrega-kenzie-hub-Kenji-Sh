@@ -15,7 +15,11 @@ export const Content = styled.div`
   margin: auto;
   padding: 60px 12px;
 
-  img {
+  > div {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
     margin-bottom: 36px;
   }
 `;
@@ -45,9 +49,10 @@ export const AnimationContainer = styled.div`
   }
 
   p {
-    font-size: 12px;
-    font-weight: 600;
-    line-height: 18px;
+    align-self: center;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 22px;
     color: var(--grey_1);
   }
 `;

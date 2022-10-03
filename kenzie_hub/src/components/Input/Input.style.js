@@ -1,13 +1,13 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
-    text-align: left;
+  text-align: left;
 
-    label {
-      font-size: 14px;
-      font-weight: 400;
-    }
-`
+  label {
+    font-size: 14px;
+    font-weight: 400;
+  }
+`;
 
 export const InputContainer = styled.div`
   display: flex;
@@ -15,11 +15,10 @@ export const InputContainer = styled.div`
   height: 48px;
   margin-top: 22px;
   padding: 0 16px;
-  border: solid 1px var(--grey_0);
+  border: ${({ withBorder }) =>
+    withBorder ? "solid 1px var(--grey_0)" : "none"};
   border-radius: 8px;
-  color: var(--grey_0);
   background: var(--grey_2);
-  transition: 0.4s;
 
   input {
     flex: 1;
