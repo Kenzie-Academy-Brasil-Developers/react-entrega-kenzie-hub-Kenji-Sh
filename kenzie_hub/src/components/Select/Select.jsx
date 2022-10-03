@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Container, StyledSelect, Options } from "./Select.style";
 
-const Select = ({ label, name }) => {
+const Select = ({ label, name, register }) => {
   const [isActive, setIsActive] = useState(false);
   const [value, setValue] = useState("Primeiro Módulo");
 
@@ -13,7 +13,7 @@ const Select = ({ label, name }) => {
     <Container>
       <label htmlFor={name}>{label}</label>
       <StyledSelect isActive={isActive} onClick={handleToggle}>
-        <input name={name} value={value} readOnly />
+        <input name={name} value={value} {...register(name)} readOnly />
         <Options isActive={isActive}>
           <li onClick={(e) => setValue(e.target.textContent)}>
             Primeiro Módulo
