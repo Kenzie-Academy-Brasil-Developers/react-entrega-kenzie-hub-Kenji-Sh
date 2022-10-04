@@ -6,6 +6,10 @@ export const Container = styled.div`
   label {
     font-size: 14px;
     font-weight: 400;
+
+    span {
+      color: var(--negative);
+    }
   }
 `;
 

@@ -3,7 +3,9 @@ import { Container, StyledSelect, Options } from "./Select.style";
 
 const Select = ({ label, name, register }) => {
   const [isActive, setIsActive] = useState(false);
-  const [value, setValue] = useState("Primeiro Módulo");
+  const [value, setValue] = useState(
+    "Primeiro módulo (Introdução ao Frontend)"
+  );
 
   const handleToggle = () => {
     setIsActive(!isActive);
@@ -16,17 +18,17 @@ const Select = ({ label, name, register }) => {
         <input name={name} value={value} {...register(name)} readOnly />
         <Options isActive={isActive}>
           <li onClick={(e) => setValue(e.target.textContent)}>
-            Primeiro Módulo
+            Primeiro módulo (Introdução ao Frontend)
           </li>
           <li onClick={(e) => setValue(e.target.textContent)}>
-            Segundo Módulo
+            Segundo módulo (Frontend Avançado)
           </li>
           <li onClick={(e) => setValue(e.target.textContent)}>
-            Terceiro Módulo
+            Terceiro módulo (Introdução ao Backend)
           </li>
-          <li onClick={(e) => setValue(e.target.textContent)}>Quarto Módulo</li>
-          <li onClick={(e) => setValue(e.target.textContent)}>Quinto Módulo</li>
-          <li onClick={(e) => setValue(e.target.textContent)}>Sexto Módulo</li>
+          <li onClick={(e) => setValue(e.target.textContent)}>
+            Quarto módulo (Backend Avançado)
+          </li>
         </Options>
       </StyledSelect>
     </Container>
