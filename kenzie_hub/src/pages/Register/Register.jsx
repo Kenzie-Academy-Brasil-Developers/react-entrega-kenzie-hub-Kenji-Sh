@@ -2,12 +2,14 @@ import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
+import toast from "react-hot-toast";
 
 import Logo from "@assets/Logo.svg";
 import { Container, Content, AnimationContainer } from "./Register.style";
 import Input from "@components/Input";
 import { Button, SmallButton } from "@components/Button";
 import Select from "@components/Select";
+import api from "@services/api";
 
 const Login = () => {
   const formSchema = yup.object().shape({
@@ -38,8 +40,6 @@ const Login = () => {
     resolver: yupResolver(formSchema),
   });
 
-  console.log(errors);
-
   const navigate = useNavigate();
 
   const onSubmit = ({ name, email, password, bio, contact, moduleSelect }) => {
@@ -52,7 +52,13 @@ const Login = () => {
       course_module: moduleSelect,
     };
 
-    console.log(data);
+    api
+      .post("/users", data)
+      .then((_) => {
+        toast.success("Conta criada com sucesso");
+        navigate("/");
+      })
+      .catch((_) => toast.error("Email já foi cadastrado"));
   };
 
   return (
@@ -72,6 +78,7 @@ const Login = () => {
               placeholder="Digite aqui seu nome"
               type="text"
               register={register}
+              error={errors["name"]?.message}
             />
             <Input
               name="email"
@@ -79,6 +86,7 @@ const Login = () => {
               placeholder="Digite aqui seu email"
               type="email"
               register={register}
+              error={errors["email"]?.message}
             />
             <Input
               name="password"
@@ -86,6 +94,7 @@ const Login = () => {
               placeholder="Digite aqui sua senha"
               type="password"
               register={register}
+              error={errors["password"]?.message}
             />
             <Input
               name="passwordConfirm"
@@ -93,6 +102,7 @@ const Login = () => {
               placeholder="Digite novamente sua senha"
               type="password"
               register={register}
+              error={errors["passwordConfirm"]?.message}
             />
             <Input
               name="bio"
@@ -100,6 +110,7 @@ const Login = () => {
               placeholder="Fale sobre você"
               type="text"
               register={register}
+              error={errors["bio"]?.message}
             />
             <Input
               name="contact"
@@ -107,6 +118,7 @@ const Login = () => {
               placeholder="Opção de contato"
               type="text"
               register={register}
+              error={errors["contact"]?.message}
             />
             <Select
               name="moduleSelect"
