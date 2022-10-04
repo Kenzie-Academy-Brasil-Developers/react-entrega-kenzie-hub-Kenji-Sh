@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -11,7 +11,11 @@ import { Button, SmallButton } from "@components/Button";
 import Select from "@components/Select";
 import api from "@services/api";
 
-const Login = () => {
+const Register = ({ authenticated }) => {
+  if (authenticated) {
+    return <Navigate to="/dashboard" />;
+  }
+  
   const formSchema = yup.object().shape({
     name: yup.string().required("Campo obrigatório"),
     email: yup.string().required("Campo obrigatório").email("Email inválido"),
@@ -155,4 +159,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Register;
