@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 
 export const Container = styled.div`
   display: flex;
@@ -18,6 +18,25 @@ export const Content = styled.div`
   img {
     margin-bottom: 36px;
   }
+
+  > div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 516px;
+  }
+`;
+
+const appearFromBottom = keyframes`
+    from {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0px);
+    }
 `;
 
 export const AnimationContainer = styled.div`
@@ -29,6 +48,7 @@ export const AnimationContainer = styled.div`
   gap: 22px;
   border-radius: 8px;
   background: var(--grey_3);
+  animation: ${appearFromBottom} 1s;
 
   form {
     display: flex;
@@ -37,10 +57,10 @@ export const AnimationContainer = styled.div`
     gap: 22px;
 
     h1 {
-        align-self: center;
-        font-size: 18px;
-        font-weight: 700;
-        line-height: 28px;
+      align-self: center;
+      font-size: 18px;
+      font-weight: 700;
+      line-height: 28px;
     }
   }
 

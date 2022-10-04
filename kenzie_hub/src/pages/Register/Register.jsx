@@ -4,18 +4,18 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import toast from "react-hot-toast";
 
+import api from "@services/api";
 import Logo from "@assets/Logo.svg";
 import { Container, Content, AnimationContainer } from "./Register.style";
 import Input from "@components/Input";
 import { Button, SmallButton } from "@components/Button";
 import Select from "@components/Select";
-import api from "@services/api";
 
 const Register = ({ authenticated }) => {
   if (authenticated) {
     return <Navigate to="/dashboard" />;
   }
-  
+
   const formSchema = yup.object().shape({
     name: yup.string().required("Campo obrigatório"),
     email: yup.string().required("Campo obrigatório").email("Email inválido"),
@@ -39,9 +39,10 @@ const Register = ({ authenticated }) => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isValid },
   } = useForm({
     resolver: yupResolver(formSchema),
+    mode: "onChange",
   });
 
   const navigate = useNavigate();
@@ -69,6 +70,7 @@ const Register = ({ authenticated }) => {
             secondary: "var(--grey_2)",
           },
         });
+
         navigate("/");
       })
       .catch((_) =>
@@ -149,7 +151,7 @@ const Register = ({ authenticated }) => {
               label="Selecionar módulo"
               register={register}
             />
-            <Button pinkSchema type="submit">
+            <Button pinkSchema type="submit" disabled={!isValid}>
               Cadastrar
             </Button>
           </form>

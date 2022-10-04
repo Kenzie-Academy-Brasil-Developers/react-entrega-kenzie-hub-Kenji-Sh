@@ -1,22 +1,30 @@
 import { Navigate, useNavigate } from "react-router-dom";
 
 import Logo from "@assets/Logo.svg";
-import { Container, Navbar, Header, Main } from "./Dashboard.style";
+import {
+  Container,
+  ContentContainer,
+  Navbar,
+  Header,
+  Main,
+} from "./Dashboard.style";
 import { SmallButton } from "@components/Button";
 
-const Dashboard = ({ authenticated, setAuthenticated, user, setUser }) => {
+const Dashboard = ({ authenticated, setAuthenticated }) => {
   if (!authenticated) {
     return <Navigate to="/" />;
   }
 
   const navigate = useNavigate();
+  const user = JSON.parse(sessionStorage.getItem("@KenzieHub:user"));
 
   const handleLogout = () => {
     localStorage.clear("@KenzieHub:token");
     localStorage.clear("@KenzieHub:userId");
+    sessionStorage.clear("@KenzieHub:user");
 
     setAuthenticated(false);
-    setUser(null)
+    setUser(null);
 
     navigate(-1);
   };
@@ -24,18 +32,25 @@ const Dashboard = ({ authenticated, setAuthenticated, user, setUser }) => {
   return (
     <Container>
       <Navbar>
-        <img src={Logo} alt="logo" />
-        <SmallButton onClick={handleLogout}>Sair</SmallButton>
+        <ContentContainer>
+          <img src={Logo} alt="logo" />
+          <SmallButton onClick={handleLogout}>Sair</SmallButton>
+        </ContentContainer>
       </Navbar>
       <Header>
-        <h1>Olá {user["name"]}</h1>
-        <p>{user["course_module"]}</p>
+        <ContentContainer>
+          <h1>Olá, {user["name"]}</h1>
+          <p>{user["course_module"]}</p>
+        </ContentContainer>
       </Header>
       <Main>
-        <h2>Que pena! Estamos em desenvolvimento :(</h2>
-        <p>
-          Nossa aplicação está em desenvolvimento, em breve teremos novidades
-        </p>
+        <ContentContainer>
+          <h2>Que pena! Estamos em desenvolvimento :(</h2>
+          <p>
+            Nossa aplicação está em desenvolvimento, em breve teremos
+            novidades!!!
+          </p>
+        </ContentContainer>
       </Main>
     </Container>
   );

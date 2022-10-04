@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 
 export const Container = styled.div`
   display: flex;
@@ -24,6 +24,18 @@ export const Content = styled.div`
   }
 `;
 
+const appearFromBottom = keyframes`
+    from {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0px);
+    }
+`;
+
 export const AnimationContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -33,6 +45,7 @@ export const AnimationContainer = styled.div`
   gap: 22px;
   border-radius: 8px;
   background: var(--grey_3);
+  animation: ${appearFromBottom} 1s;
 
   form {
     display: flex;

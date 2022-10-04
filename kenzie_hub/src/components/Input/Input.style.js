@@ -19,10 +19,20 @@ export const InputContainer = styled.div`
   height: 48px;
   margin-top: 22px;
   padding: 0 16px;
-  border: ${({ withBorder }) =>
-    withBorder ? "solid 1px var(--grey_0)" : "none"};
+  border: solid 1px transparent;
   border-radius: 8px;
   background: var(--grey_2);
+
+  &:focus-within,
+  &:hover {
+    border-color: var(--grey_0);
+
+    input {
+      &::placeholder {
+        color: var(--grey_0);
+      }
+    }
+  }
 
   input {
     flex: 1;

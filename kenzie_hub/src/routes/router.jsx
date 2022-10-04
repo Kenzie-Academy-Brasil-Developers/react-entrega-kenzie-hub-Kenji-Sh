@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { Routes, Route } from "react-router-dom";
+
 import Login from "@pages/Login";
 import Register from "@pages/Register";
 import Dashboard from "@pages/Dashbord";
 
 export default () => {
   const [authenticated, setAuthenticated] = useState(false);
-  const [user, setUser] = useState(null);
 
   useEffect(() => {
     const token = JSON.parse(localStorage.getItem("@KenzieHub:token"));
@@ -22,7 +22,6 @@ export default () => {
           <Login
             authenticated={authenticated}
             setAuthenticated={setAuthenticated}
-            setUser={setUser}
           />
         }
       />
@@ -36,8 +35,6 @@ export default () => {
           <Dashboard
             authenticated={authenticated}
             setAuthenticated={setAuthenticated}
-            user={user}
-            setUser={setUser}
           />
         }
       />

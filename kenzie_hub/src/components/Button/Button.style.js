@@ -21,6 +21,12 @@ export const Button = styled.button`
     background: ${({ pinkSchema }) =>
       pinkSchema ? "var(--color_primary_focus)" : "var(--grey_2)"};
   }
+
+  :disabled {
+    background: var(--color_primary_negative);
+    border-color: var(--color_primary_negative);
+    cursor: auto;
+  }
 `;
 
 export const SmallButton = styled(Button)`
