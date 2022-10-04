@@ -55,10 +55,30 @@ const Login = () => {
     api
       .post("/users", data)
       .then((_) => {
-        toast.success("Conta criada com sucesso");
+        toast.success("Conta criada com sucesso", {
+          style: {
+            color: "var(--grey_0)",
+            background: "var(--grey_2)",
+          },
+          iconTheme: {
+            primary: "var(--success)",
+            secondary: "var(--grey_2)",
+          },
+        });
         navigate("/");
       })
-      .catch((_) => toast.error("Email já foi cadastrado"));
+      .catch((_) =>
+        toast.error("Email já foi cadastrado", {
+          style: {
+            color: "var(--grey_0)",
+            background: "var(--grey_2)",
+          },
+          iconTheme: {
+            primary: "var(--negative)",
+            secondary: "var(--grey_2)",
+          },
+        })
+      );
   };
 
   return (
