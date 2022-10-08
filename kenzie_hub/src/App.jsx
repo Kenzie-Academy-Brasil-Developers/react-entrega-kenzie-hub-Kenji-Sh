@@ -2,7 +2,7 @@ import { Toaster } from "react-hot-toast";
 import GlobalStyle from "@styles/global";
 import AppRouter from "@routes/router";
 
-function App() {
+const App = () => {
   return (
     <>
       <GlobalStyle />
@@ -10,6 +10,6 @@ function App() {
       <AppRouter />
     </>
   );
-}
+};
 
 export default App;
