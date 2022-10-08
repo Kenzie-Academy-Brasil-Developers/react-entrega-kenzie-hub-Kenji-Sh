@@ -15,6 +15,19 @@ export const ContentContainer = styled(Container)`
   max-width: 800px;
   height: 100%;
   padding: 0 12px;
+
+  > div {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+
+    h2 {
+      font-size: 16px;
+      font-weight: 600;
+      line-height: 18px;
+    }
+  }
 `;
 
 export const Navbar = styled.nav`

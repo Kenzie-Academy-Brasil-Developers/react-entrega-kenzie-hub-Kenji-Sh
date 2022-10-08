@@ -1,7 +1,9 @@
 import { useContext } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
+import { AiOutlinePlus } from "react-icons/ai";
 
 import Logo from "@assets/Logo.svg";
+import TechList from "./TechList";
 import {
   Container,
   ContentContainer,
@@ -48,11 +50,13 @@ const Dashboard = () => {
       </Header>
       <Main>
         <ContentContainer>
-          <h2>Que pena! Estamos em desenvolvimento :(</h2>
-          <p>
-            Nossa aplicação está em desenvolvimento, em breve teremos
-            novidades!!!
-          </p>
+          <div>
+            <h2>Tecnologias</h2>
+            <SmallButton>
+              <AiOutlinePlus />
+            </SmallButton>
+          </div>
+          <TechList />
         </ContentContainer>
       </Main>
     </Container>
