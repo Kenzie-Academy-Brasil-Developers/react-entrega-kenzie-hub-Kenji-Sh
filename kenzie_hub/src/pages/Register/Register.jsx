@@ -1,3 +1,4 @@
+import { useContext } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
@@ -10,8 +11,11 @@ import { Container, Content, AnimationContainer } from "./Register.style";
 import Input from "@components/Input";
 import { Button, SmallButton } from "@components/Button";
 import Select from "@components/Select";
+import { AuthContext } from "@contexts/AuthContext";
 
-const Register = ({ authenticated }) => {
+const Register = () => {
+  const { authenticated } = useContext(AuthContext);
+
   if (authenticated) {
     return <Navigate to="/dashboard" />;
   }

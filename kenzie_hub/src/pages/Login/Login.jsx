@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
@@ -11,8 +11,11 @@ import { Container, Content, AnimationContainer } from "./Login.style";
 import Input from "@components/Input";
 import { Button } from "@components/Button";
 import CircleLoader from "@components/CircleFolder/CircleLoader";
+import { AuthContext } from "@contexts/AuthContext";
 
-const Login = ({ authenticated, setAuthenticated }) => {
+const Login = () => {
+  const { authenticated, setAuthenticated } = useContext(AuthContext);
+
   if (authenticated) {
     return <Navigate to="/dashboard" />;
   }

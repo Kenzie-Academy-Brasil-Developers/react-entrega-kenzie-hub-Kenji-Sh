@@ -1,3 +1,4 @@
+import { useContext } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 
 import Logo from "@assets/Logo.svg";
@@ -9,8 +10,11 @@ import {
   Main,
 } from "./Dashboard.style";
 import { SmallButton } from "@components/Button";
+import { AuthContext } from "../../contexts/AuthContext";
 
-const Dashboard = ({ authenticated, setAuthenticated }) => {
+const Dashboard = () => {
+  const { authenticated, setAuthenticated } = useContext(AuthContext);
+
   if (!authenticated) {
     return <Navigate to="/" />;
   }
@@ -24,7 +28,6 @@ const Dashboard = ({ authenticated, setAuthenticated }) => {
     sessionStorage.clear("@KenzieHub:user");
 
     setAuthenticated(false);
-    setUser(null);
 
     navigate(-1);
   };
