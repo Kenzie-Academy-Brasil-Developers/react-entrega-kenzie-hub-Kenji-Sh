@@ -1,7 +1,7 @@
-import AuthProvider from "./AuthContext";
+import UserProvider from "./UserContext";
 
 const Providers = ({ children }) => {
-  return <AuthProvider>{children}</AuthProvider>;
+  return <UserProvider>{children}</UserProvider>;
 };
 
 export default Providers;

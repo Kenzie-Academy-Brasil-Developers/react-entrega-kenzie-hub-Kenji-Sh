@@ -1,26 +1,24 @@
-import { useState, useContext } from "react";
+import { useContext } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import toast from "react-hot-toast";
 
-import api from "@services/api";
 import Logo from "@assets/Logo.svg";
 import { Container, Content, AnimationContainer } from "./Login.style";
 import Input from "@components/Input";
 import { Button } from "@components/Button";
-import CircleLoader from "@components/CircleFolder/CircleLoader";
-import { AuthContext } from "@contexts/AuthContext";
+import CircleLoader from "@components/CircleLoader";
+import { UserContext } from "@contexts/UserContext";
 
 const Login = () => {
-  const { authenticated, setAuthenticated } = useContext(AuthContext);
+  const { authenticated, login, loading } = useContext(UserContext);
 
   if (authenticated) {
     return <Navigate to="/dashboard" />;
   }
 
-  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const formSchema = yup.object().shape({
     email: yup.string().required("Campo obrigatório").email("Email inválido"),
@@ -36,41 +34,6 @@ const Login = () => {
     mode: "onChange",
   });
 
-  const navigate = useNavigate();
-
-  const onSubmit = (data) => {
-    setLoading(true);
-
-    api
-      .post("/sessions", data)
-      .then((response) => {
-        const { user, token } = response["data"];
-
-        localStorage.setItem("@KenzieHub:token", JSON.stringify(token));
-        localStorage.setItem("@KenzieHub:userId", JSON.stringify(user["id"]));
-        sessionStorage.setItem("@KenzieHub:user", JSON.stringify(user));
-
-        setAuthenticated(true);
-        setLoading(false);
-
-        navigate("/dashboard");
-      })
-      .catch((_) => {
-        setLoading(false);
-
-        toast.error("Email ou senha inválidos.", {
-          style: {
-            color: "var(--grey_0)",
-            background: "var(--grey_2)",
-          },
-          iconTheme: {
-            primary: "var(--negative)",
-            secondary: "var(--grey_2)",
-          },
-        });
-      });
-  };
-
   return (
     <Container>
       <Content>
@@ -81,7 +44,7 @@ const Login = () => {
           </div>
         ) : (
           <AnimationContainer>
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <form onSubmit={handleSubmit(login)}>
               <h1>Login</h1>
               <Input
                 withBorder

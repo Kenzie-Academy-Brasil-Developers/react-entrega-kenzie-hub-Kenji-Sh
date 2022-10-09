@@ -3,22 +3,22 @@ import { Navigate, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import toast from "react-hot-toast";
 
-import api from "@services/api";
 import Logo from "@assets/Logo.svg";
 import { Container, Content, AnimationContainer } from "./Register.style";
 import Input from "@components/Input";
 import { Button, SmallButton } from "@components/Button";
 import Select from "@components/Select";
-import { AuthContext } from "@contexts/AuthContext";
+import { UserContext } from "@contexts/UserContext";
 
 const Register = () => {
-  const { authenticated } = useContext(AuthContext);
+  const { authenticated, signup } = useContext(UserContext);
 
   if (authenticated) {
     return <Navigate to="/dashboard" />;
   }
+
+  const navigate = useNavigate();
 
   const formSchema = yup.object().shape({
     name: yup.string().required("Campo obrigatório"),
@@ -49,8 +49,6 @@ const Register = () => {
     mode: "onChange",
   });
 
-  const navigate = useNavigate();
-
   const onSubmit = ({ name, email, password, bio, contact, moduleSelect }) => {
     const data = {
       name,
@@ -61,34 +59,7 @@ const Register = () => {
       course_module: moduleSelect,
     };
 
-    api
-      .post("/users", data)
-      .then((_) => {
-        toast.success("Conta criada com sucesso", {
-          style: {
-            color: "var(--grey_0)",
-            background: "var(--grey_2)",
-          },
-          iconTheme: {
-            primary: "var(--success)",
-            secondary: "var(--grey_2)",
-          },
-        });
-
-        navigate("/");
-      })
-      .catch((_) =>
-        toast.error("Email já foi cadastrado", {
-          style: {
-            color: "var(--grey_0)",
-            background: "var(--grey_2)",
-          },
-          iconTheme: {
-            primary: "var(--negative)",
-            secondary: "var(--grey_2)",
-          },
-        })
-      );
+    signup(data);
   };
 
   return (
