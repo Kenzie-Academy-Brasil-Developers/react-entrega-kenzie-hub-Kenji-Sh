@@ -1,7 +1,9 @@
 import { useContext } from "react";
+import { AiOutlinePlus } from "react-icons/ai";
 import { Navigate } from "react-router-dom";
 
 import Logo from "@assets/Logo.svg";
+import TechList from "./TechList";
 import {
   Container,
   ContentContainer,

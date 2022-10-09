@@ -30,11 +30,18 @@ export const Button = styled.button`
 `;
 
 export const SmallButton = styled(Button)`
-  width: 68px;
+  display: flex;
+  align-items: center;
+  width: fit-content;
   height: 40px;
+  padding: 0 16px;
   border-color: var(--grey_3);
   font-size: 12px;
   font-weight: 600;
   line-height: 28px;
   background: var(--grey_3);
+
+  svg {
+    font-size: 24px;
+  }
 `;
