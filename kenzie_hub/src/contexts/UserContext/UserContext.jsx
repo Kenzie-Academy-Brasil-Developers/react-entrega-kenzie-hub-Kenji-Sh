@@ -103,10 +103,11 @@ const UserProvider = ({ children }) => {
       .catch((_) => {
         localStorage.clear("@KenzieHub:token");
         localStorage.clear("@KenzieHub:userId");
+        setLoading(false);
       });
 
     token && setAuthenticated(true);
-  }, [authenticated]);
+  }, []);
 
   const value = {
     authenticated,

@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
+  position: relative;
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -31,12 +32,18 @@ export const ContentContainer = styled(Container)`
 `;
 
 export const Navbar = styled.nav`
+  position: fixed;
+  z-index: 1;
+  display: flex;
+  width: 100%;
   min-height: 72px;
   border-bottom: solid 1px var(--grey_3);
+  background: var(--grey_4);
 `;
 
 export const Header = styled.header`
   min-height: 118px;
+  margin-top: 72px;
   border-bottom: solid 1px var(--grey_3);
 
   h1 {

@@ -11,6 +11,13 @@ import { Button, SmallButton } from "@components/Button";
 import Select from "@components/Select";
 import { UserContext } from "@contexts/UserContext";
 
+const moduleSelect = [
+  "Primeiro módulo (Introdução ao Frontend)",
+  "Segundo módulo (Frontend Avançado)",
+  "Terceiro módulo (Introdução ao Backend)",
+  "Quarto módulo (Backend Avançado)",
+];
+
 const Register = () => {
   const { authenticated, signup } = useContext(UserContext);
 
@@ -125,6 +132,8 @@ const Register = () => {
               name="moduleSelect"
               label="Selecionar módulo"
               register={register}
+              options={moduleSelect}
+              initialValue="Primeiro módulo (Introdução ao Frontend)"
             />
             <Button pinkSchema type="submit" disabled={!isValid}>
               Cadastrar

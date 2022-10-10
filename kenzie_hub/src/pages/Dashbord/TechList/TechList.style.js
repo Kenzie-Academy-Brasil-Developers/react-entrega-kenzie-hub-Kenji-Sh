@@ -8,4 +8,8 @@ export const StyledUl = styled.ul`
   gap: 16px;
   border-radius: 4px;
   background: var(--grey_3);
+
+  @media screen and (max-width: 425px) {
+    padding: 24px 12px;
+  }
 `;

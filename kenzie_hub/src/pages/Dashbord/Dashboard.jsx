@@ -1,9 +1,8 @@
-import { useContext } from "react";
-import { AiOutlinePlus } from "react-icons/ai";
+import { useContext, useState } from "react";
 import { Navigate } from "react-router-dom";
+import { AiOutlinePlus } from "react-icons/ai";
 
 import Logo from "@assets/Logo.svg";
-import TechList from "./TechList";
 import {
   Container,
   ContentContainer,
@@ -11,9 +10,11 @@ import {
   Header,
   Main,
 } from "./Dashboard.style";
+import TechList from "./TechList";
 import { SmallButton } from "@components/Button";
 import CircleLoader from "@components/CircleLoader";
 import { UserContext } from "@contexts/UserContext";
+import Modal from "../../components/Modal";
 
 const Dashboard = () => {
   const { authenticated, logout, userInfo, loading } = useContext(UserContext);
@@ -22,12 +23,15 @@ const Dashboard = () => {
     return <Navigate to="/" />;
   }
 
+  const [isOpen, setIsOpen] = useState(true);
+
   return (
     <Container>
       {loading ? (
         <CircleLoader />
       ) : (
         <>
+          {isOpen && <Modal setIsOpen={setIsOpen} />}
           <Navbar>
             <ContentContainer>
               <img src={Logo} alt="logo" />
@@ -42,11 +46,13 @@ const Dashboard = () => {
           </Header>
           <Main>
             <ContentContainer>
-              <h2>Que pena! Estamos em desenvolvimento :(</h2>
-              <p>
-                Nossa aplicação está em desenvolvimento, em breve teremos
-                novidades!!!
-              </p>
+              <div>
+                <h2>Tecnologias</h2>
+                <SmallButton>
+                  <AiOutlinePlus />
+                </SmallButton>
+              </div>
+              <TechList techs={userInfo["techs"]} setIsOpen={setIsOpen} />
             </ContentContainer>
           </Main>
         </>
