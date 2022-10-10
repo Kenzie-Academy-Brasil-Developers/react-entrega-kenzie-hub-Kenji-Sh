@@ -9,6 +9,7 @@ import {
   Navbar,
   Header,
   Main,
+  ModalContainer,
 } from "./Dashboard.style";
 import TechList from "./TechList";
 import { SmallButton } from "@components/Button";
@@ -23,7 +24,9 @@ const Dashboard = () => {
     return <Navigate to="/" />;
   }
 
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
+  const [type, setType] = useState(null);
+  const [tech, setTech] = useState({});
 
   return (
     <Container>
@@ -31,7 +34,11 @@ const Dashboard = () => {
         <CircleLoader />
       ) : (
         <>
-          {isOpen && <Modal setIsOpen={setIsOpen} />}
+          {isOpen && (
+            <ModalContainer>
+              <Modal setIsOpen={setIsOpen} type={type} tech={tech} />
+            </ModalContainer>
+          )}
           <Navbar>
             <ContentContainer>
               <img src={Logo} alt="logo" />
@@ -48,11 +55,21 @@ const Dashboard = () => {
             <ContentContainer>
               <div>
                 <h2>Tecnologias</h2>
-                <SmallButton>
+                <SmallButton
+                  onClick={() => {
+                    setType("add");
+                    setIsOpen(true);
+                  }}
+                >
                   <AiOutlinePlus />
                 </SmallButton>
               </div>
-              <TechList techs={userInfo["techs"]} setIsOpen={setIsOpen} />
+              <TechList
+                techs={userInfo["techs"]}
+                setIsOpen={setIsOpen}
+                setType={setType}
+                setTech={setTech}
+              />
             </ContentContainer>
           </Main>
         </>

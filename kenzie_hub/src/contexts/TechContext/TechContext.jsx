@@ -5,15 +5,20 @@ import api from "@services/api";
 export const TechContext = createContext(null);
 
 const TechProvider = ({ children }) => {
-  const addTech = (data) => {
-    const token = JSON.parse(localStorage.getItem("@KenzieHub:token"));
 
-    api.post("/users/techs", data, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+  const addTech = (data) => {
+    console.log(data)
+    // api
+    //   .post("/users/techs", data)
+    //   .then((response) => console.log(response))
+    //   .catch((err) => console.log(err));
   };
 
-  return <TechContext.Provider>{children}</TechContext.Provider>;
+  const value = {
+    addTech,
+  };
+
+  return <TechContext.Provider value={value}>{children}</TechContext.Provider>;
 };
+
+export default TechProvider;

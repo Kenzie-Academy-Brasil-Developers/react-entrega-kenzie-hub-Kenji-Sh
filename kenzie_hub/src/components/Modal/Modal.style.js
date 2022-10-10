@@ -1,17 +1,5 @@
 import styled from "styled-components";
 
-export const Container = styled.div`
-  position: absolute;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 2;
-  width: 100%;
-  height: 100%;
-  padding: 0 12px;
-  background-color: rgba(0, 0, 0, 0.5);
-`;
-
 export const ModalContent = styled.div`
   width: 369px;
   border-radius: 4px;

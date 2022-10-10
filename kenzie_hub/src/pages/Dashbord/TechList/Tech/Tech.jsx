@@ -1,10 +1,19 @@
 import { StyledLi } from "./Tech.style";
 
-const Tech = ({ setIsOpen }) => {
+const Tech = ({ title, status, setType, setIsOpen, setTech }) => {
   return (
-    <StyledLi onClick={() => setIsOpen(true)}>
-      <h3>React JS</h3>
-      <p>Intermediário</p>
+    <StyledLi
+      onClick={() => {
+        setType("edit");
+        setIsOpen(true);
+        setTech({
+          title,
+          status,
+        });
+      }}
+    >
+      <h3>{title}</h3>
+      <p>{status}</p>
     </StyledLi>
   );
 };

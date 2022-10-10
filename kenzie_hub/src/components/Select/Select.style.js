@@ -6,6 +6,10 @@ export const Container = styled.div`
   label {
     font-size: 14px;
     font-weight: 400;
+
+    span {
+      color: var(--negative);
+    }
   }
 `;
 
@@ -45,6 +49,10 @@ export const StyledSelect = styled.div`
     color: var(--grey_0);
     background-color: var(--grey_2);
     cursor: pointer;
+
+    &::placeholder {
+      color: var(--grey_1);
+    }
   }
 `;
 

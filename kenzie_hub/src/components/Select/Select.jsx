@@ -1,22 +1,29 @@
 import { useState } from "react";
 import { Container, StyledSelect, Options } from "./Select.style";
 
-const Select = ({ label, name, register, options, initialValue }) => {
+const Select = ({ name, label, register, options, selectRef }) => {
   const [isActive, setIsActive] = useState(false);
-  const [value, setValue] = useState(initialValue);
-
-  const handleToggle = () => {
-    setIsActive(!isActive);
-  };
 
   return (
     <Container>
       <label htmlFor={name}>{label}</label>
-      <StyledSelect isActive={isActive} onClick={handleToggle}>
-        <input name={name} value={value} {...register(name)} readOnly />
+      <StyledSelect isActive={isActive} onClick={() => setIsActive(!isActive)}>
+        <input
+          ref={selectRef}
+          value={selectRef.current}
+          {...register(name)}
+          readOnly
+        />
         <Options isActive={isActive}>
           {options.map((option) => (
-            <li onClick={(e) => setValue(e.target.textContent)}>{option}</li>
+            <li
+              key={option}
+              onClick={() => {
+                selectRef.current = option;
+              }}
+            >
+              {option}
+            </li>
           ))}
         </Options>
       </StyledSelect>

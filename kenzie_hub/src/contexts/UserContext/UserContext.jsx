@@ -90,12 +90,10 @@ const UserProvider = ({ children }) => {
     setLoading(true);
     const token = JSON.parse(localStorage.getItem("@KenzieHub:token")) || "";
 
+    api.defaults.headers.authorization = `Bearer ${token}`;
+
     api
-      .get("/profile", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
+      .get("/profile")
       .then((response) => {
         setUserInfo(response["data"]);
         setLoading(false);
