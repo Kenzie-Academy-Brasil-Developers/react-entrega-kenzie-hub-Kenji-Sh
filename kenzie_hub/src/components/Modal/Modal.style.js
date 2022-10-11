@@ -2,10 +2,11 @@ import styled from "styled-components";
 
 export const ModalContent = styled.div`
   width: 369px;
+  height: 362px;
   border-radius: 4px;
   background: var(--grey_3);
 
-  > div {
+  .modal-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -24,7 +25,19 @@ export const ModalContent = styled.div`
   form {
     display: flex;
     flex-direction: column;
+    height: 100%;
     padding: 22px;
     gap: 20px;
+
+    .button-container {
+      display: flex;
+      gap: 22px;
+
+      button {
+        :last-child {
+          width: 50%;
+        }
+      }
+    }
   }
 `;

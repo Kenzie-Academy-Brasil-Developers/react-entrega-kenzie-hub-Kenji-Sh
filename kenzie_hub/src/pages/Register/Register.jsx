@@ -68,9 +68,7 @@ const Register = () => {
       course_module: selectRef.current,
     };
 
-    console.log(data);
-
-    // signup(data);
+    signup(data);
   };
 
   return (

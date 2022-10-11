@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Container, StyledSelect, Options } from "./Select.style";
 
-const Select = ({ name, label, register, options, selectRef }) => {
+const Select = ({ name, label, register, options, placeholder, selectRef }) => {
   const [isActive, setIsActive] = useState(false);
 
   return (
@@ -12,6 +12,7 @@ const Select = ({ name, label, register, options, selectRef }) => {
           ref={selectRef}
           value={selectRef.current}
           {...register(name)}
+          placeholder={placeholder}
           readOnly
         />
         <Options isActive={isActive}>

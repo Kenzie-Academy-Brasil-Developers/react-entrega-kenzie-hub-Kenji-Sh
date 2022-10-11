@@ -5,9 +5,10 @@ const TechList = ({ techs, setIsOpen, setType, setTech }) => {
   return (
     <StyledUl>
       {techs.length ? (
-        techs.map(({ title, status }) => (
+        techs.map(({ title, status, id }) => (
           <Tech
-            key={title}
+            key={id}
+            id={id}
             title={title}
             status={status}
             setIsOpen={setIsOpen}

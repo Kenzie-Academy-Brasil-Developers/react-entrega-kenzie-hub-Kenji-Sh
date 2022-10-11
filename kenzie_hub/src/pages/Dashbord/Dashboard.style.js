@@ -103,6 +103,12 @@ export const Main = styled.main`
     align-items: flex-start;
     justify-content: initial;
     margin: 0 auto;
+    margin-bottom: 38px;
     gap: 24px;
+
+    ul {
+      max-height: 416px;
+      overflow-y: auto;
+    }
   }
 `;

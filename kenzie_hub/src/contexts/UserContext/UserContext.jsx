@@ -88,6 +88,7 @@ const UserProvider = ({ children }) => {
 
   useEffect(() => {
     setLoading(true);
+
     const token = JSON.parse(localStorage.getItem("@KenzieHub:token")) || "";
 
     api.defaults.headers.authorization = `Bearer ${token}`;
@@ -116,6 +117,8 @@ const UserProvider = ({ children }) => {
     logout,
     userInfo,
   };
+
+  console.log(userInfo)
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
 };
