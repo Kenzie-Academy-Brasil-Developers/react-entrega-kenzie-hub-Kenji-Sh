@@ -1,11 +1,24 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
+  position: relative;
   display: flex;
   flex-direction: column;
   width: 100%;
   height: 100vh;
   margin: auto;
+`;
+
+export const ModalContainer = styled.div`
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  padding: 0 12px;
+  background-color: rgba(0, 0, 0, 0.5);
 `;
 
 export const ContentContainer = styled(Container)`
@@ -31,12 +44,18 @@ export const ContentContainer = styled(Container)`
 `;
 
 export const Navbar = styled.nav`
+  position: fixed;
+  z-index: 1;
+  display: flex;
+  width: 100%;
   min-height: 72px;
   border-bottom: solid 1px var(--grey_3);
+  background: var(--grey_4);
 `;
 
 export const Header = styled.header`
   min-height: 118px;
+  margin-top: 72px;
   border-bottom: solid 1px var(--grey_3);
 
   h1 {
@@ -84,6 +103,12 @@ export const Main = styled.main`
     align-items: flex-start;
     justify-content: initial;
     margin: 0 auto;
+    margin-bottom: 38px;
     gap: 24px;
+
+    ul {
+      max-height: 416px;
+      overflow-y: auto;
+    }
   }
 `;

@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useRef } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
@@ -11,8 +11,17 @@ import { Button, SmallButton } from "@components/Button";
 import Select from "@components/Select";
 import { UserContext } from "@contexts/UserContext";
 
+const moduleSelect = [
+  "Primeiro módulo (Introdução ao Frontend)",
+  "Segundo módulo (Frontend Avançado)",
+  "Terceiro módulo (Introdução ao Backend)",
+  "Quarto módulo (Backend Avançado)",
+];
+
 const Register = () => {
   const { authenticated, signup } = useContext(UserContext);
+
+  const selectRef = useRef("Primeiro módulo (Introdução ao Frontend)");
 
   if (authenticated) {
     return <Navigate to="/dashboard" />;
@@ -49,14 +58,14 @@ const Register = () => {
     mode: "onChange",
   });
 
-  const onSubmit = ({ name, email, password, bio, contact, moduleSelect }) => {
+  const onSubmit = ({ name, email, password, bio, contact }) => {
     const data = {
       name,
       email,
       password,
       bio,
       contact,
-      course_module: moduleSelect,
+      course_module: selectRef.current,
     };
 
     signup(data);
@@ -125,6 +134,8 @@ const Register = () => {
               name="moduleSelect"
               label="Selecionar módulo"
               register={register}
+              options={moduleSelect}
+              selectRef={selectRef}
             />
             <Button pinkSchema type="submit" disabled={!isValid}>
               Cadastrar

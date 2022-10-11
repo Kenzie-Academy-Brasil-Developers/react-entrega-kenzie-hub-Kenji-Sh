@@ -88,14 +88,13 @@ const UserProvider = ({ children }) => {
 
   useEffect(() => {
     setLoading(true);
+
     const token = JSON.parse(localStorage.getItem("@KenzieHub:token")) || "";
 
+    api.defaults.headers.authorization = `Bearer ${token}`;
+
     api
-      .get("/profile", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
+      .get("/profile")
       .then((response) => {
         setUserInfo(response["data"]);
         setLoading(false);
@@ -103,10 +102,11 @@ const UserProvider = ({ children }) => {
       .catch((_) => {
         localStorage.clear("@KenzieHub:token");
         localStorage.clear("@KenzieHub:userId");
+        setLoading(false);
       });
 
     token && setAuthenticated(true);
-  }, [authenticated]);
+  }, []);
 
   const value = {
     authenticated,
@@ -117,6 +117,8 @@ const UserProvider = ({ children }) => {
     logout,
     userInfo,
   };
+
+  console.log(userInfo)
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
 };
