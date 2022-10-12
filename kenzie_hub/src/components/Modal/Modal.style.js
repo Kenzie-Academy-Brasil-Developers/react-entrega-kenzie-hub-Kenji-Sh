@@ -20,6 +20,10 @@ export const ModalContent = styled.div`
       font-weight: 700;
       line-height: 24px;
     }
+
+    svg {
+      cursor: pointer;
+    }
   }
 
   form {

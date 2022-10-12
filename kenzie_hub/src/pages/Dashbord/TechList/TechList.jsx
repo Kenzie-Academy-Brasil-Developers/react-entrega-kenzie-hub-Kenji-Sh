@@ -1,23 +1,15 @@
-import Tech from "./Tech";
 import { StyledUl } from "./TechList.style";
+import Tech from "./Tech";
 
-const TechList = ({ techs, setIsOpen, setType, setTech }) => {
+const TechList = ({ techs }) => {
   return (
     <StyledUl>
       {techs.length ? (
-        techs.map(({ title, status, id }) => (
-          <Tech
-            key={id}
-            id={id}
-            title={title}
-            status={status}
-            setIsOpen={setIsOpen}
-            setType={setType}
-            setTech={setTech}
-          />
+        techs.map(({ id, title, status }) => (
+          <Tech key={id} id={id} title={title} status={status} />
         ))
       ) : (
-        <p>Nada</p>
+        <p>Você ainda não possui nenhuma tecnologia cadastrada.</p>
       )}
     </StyledUl>
   );

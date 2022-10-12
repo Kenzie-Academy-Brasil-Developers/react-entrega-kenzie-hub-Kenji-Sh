@@ -1,5 +1,4 @@
 import { useContext, useState } from "react";
-import { Navigate } from "react-router-dom";
 import { AiOutlinePlus } from "react-icons/ai";
 
 import Logo from "@assets/Logo.svg";
@@ -12,21 +11,15 @@ import {
   ModalContainer,
 } from "./Dashboard.style";
 import TechList from "./TechList";
+import Modal from "@components/Modal";
 import { SmallButton } from "@components/Button";
 import CircleLoader from "@components/CircleLoader";
 import { UserContext } from "@contexts/UserContext";
-import Modal from "../../components/Modal";
+import { TechContext } from "@contexts/TechContext";
 
 const Dashboard = () => {
-  const { authenticated, logout, userInfo, loading } = useContext(UserContext);
-
-  if (!authenticated) {
-    return <Navigate to="/" />;
-  }
-
-  const [isOpen, setIsOpen] = useState(false);
-  const [type, setType] = useState(null);
-  const [tech, setTech] = useState({});
+  const { logout, userInfo, loading } = useContext(UserContext);
+  const { isOpen, openTechModal } = useContext(TechContext);
 
   return (
     <Container>
@@ -36,19 +29,19 @@ const Dashboard = () => {
         <>
           {isOpen && (
             <ModalContainer>
-              <Modal setIsOpen={setIsOpen} type={type} tech={tech} />
+              <Modal />
             </ModalContainer>
           )}
           <Navbar>
             <ContentContainer>
               <img src={Logo} alt="logo" />
-              <SmallButton onClick={logout}>Sair</SmallButton>
+              <SmallButton onClick={() => logout()}>Sair</SmallButton>
             </ContentContainer>
           </Navbar>
           <Header>
             <ContentContainer>
-              <h1>Olá, {userInfo?.name}</h1>
-              <p>{userInfo?.course_module}</p>
+              <h1>Olá, {userInfo.name}</h1>
+              <p>{userInfo.course_module}</p>
             </ContentContainer>
           </Header>
           <Main>
@@ -57,19 +50,13 @@ const Dashboard = () => {
                 <h2>Tecnologias</h2>
                 <SmallButton
                   onClick={() => {
-                    setType("add");
-                    setIsOpen(true);
+                    openTechModal("add");
                   }}
                 >
                   <AiOutlinePlus />
                 </SmallButton>
               </div>
-              <TechList
-                techs={userInfo["techs"]}
-                setIsOpen={setIsOpen}
-                setType={setType}
-                setTech={setTech}
-              />
+              <TechList techs={userInfo["techs"]} />
             </ContentContainer>
           </Main>
         </>

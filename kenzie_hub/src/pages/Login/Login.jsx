@@ -1,7 +1,6 @@
 import { useContext } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 
 import Logo from "@assets/Logo.svg";
@@ -10,66 +9,58 @@ import Input from "@components/Input";
 import { Button } from "@components/Button";
 import CircleLoader from "@components/CircleLoader";
 import { UserContext } from "@contexts/UserContext";
+import { loginFormSchema } from "@validations/login";
 
 const Login = () => {
-  const { authenticated, login, loading } = useContext(UserContext);
-
-  if (authenticated) {
-    return <Navigate to="/dashboard" />;
-  }
-
-  const navigate = useNavigate();
-
-  const formSchema = yup.object().shape({
-    email: yup.string().required("Campo obrigatório").email("Email inválido"),
-    password: yup.string().required("Campo obrigatório"),
-  });
+  const { login, loading } = useContext(UserContext);
 
   const {
-    register,
-    handleSubmit,
-    formState: { errors, isValid },
+    register: loginRegister,
+    handleSubmit: loginHandleSubmit,
+    formState: { errors: loginErrors, isValid: loginIsValid },
   } = useForm({
-    resolver: yupResolver(formSchema),
+    resolver: yupResolver(loginFormSchema),
     mode: "onChange",
   });
+
+  const onSubmit = (data) => {
+    login(data);
+  };
 
   return (
     <Container>
       <Content>
         <img src={Logo} alt="logo" />
         {loading ? (
-          <div>
+          <div className="loading">
             <CircleLoader />
           </div>
         ) : (
           <AnimationContainer>
-            <form onSubmit={handleSubmit(login)}>
+            <form onSubmit={loginHandleSubmit(onSubmit)}>
               <h1>Login</h1>
               <Input
-                withBorder
                 name="email"
                 label="Email"
                 placeholder="Digite seu email"
                 type="email"
-                register={register}
-                error={errors["email"]?.message}
+                register={loginRegister}
+                error={loginErrors["email"]?.message}
               />
               <Input
-                withBorder
                 name="password"
                 label="Senha"
                 placeholder="Digite sua senha"
                 type="password"
-                register={register}
-                error={errors["password"]?.message}
+                register={loginRegister}
+                error={loginErrors["password"]?.message}
               />
-              <Button pinkSchema disabled={!isValid}>
+              <Button pinkSchema type="submit" disabled={!loginIsValid}>
                 Entrar
               </Button>
             </form>
             <p>Ainda não possui uma conta?</p>
-            <Button onClick={() => navigate("/signup")}>Cadastre-se</Button>
+            <Link to="/signup">Cadastre-se</Link>
           </AnimationContainer>
         )}
       </Content>

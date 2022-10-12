@@ -1,12 +1,15 @@
-import { StyledLi } from "./Tech.style";
+import { useContext } from "react";
 
-const Tech = ({ id, title, status, setType, setIsOpen, setTech }) => {
+import { StyledLi } from "./Tech.style";
+import { TechContext } from "@contexts/TechContext";
+
+const Tech = ({ id, title, status }) => {
+  const { openTechModal } = useContext(TechContext);
+
   return (
     <StyledLi
       onClick={() => {
-        setType("edit");
-        setIsOpen(true);
-        setTech({
+        openTechModal("edit", {
           id,
           title,
           status,

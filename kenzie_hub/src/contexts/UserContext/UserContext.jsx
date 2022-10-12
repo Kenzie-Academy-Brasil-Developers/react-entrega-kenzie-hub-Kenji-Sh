@@ -4,82 +4,83 @@ import toast from "react-hot-toast";
 
 import api from "@services/api";
 
-export const UserContext = createContext(null);
+export const UserContext = createContext({});
 
 const UserProvider = ({ children }) => {
   const [authenticated, setAuthenticated] = useState(false);
   const [userInfo, setUserInfo] = useState(null);
   const [loading, setLoading] = useState(false);
-
   const navigate = useNavigate();
 
-  const login = (data) => {
+  const login = async (data) => {
     setLoading(true);
 
-    api
-      .post("/sessions", data)
-      .then((response) => {
-        const { user, token } = response["data"];
+    try {
+      const response = await api.post("/sessions", data);
+      const { user, token } = response["data"];
 
-        localStorage.setItem("@KenzieHub:token", JSON.stringify(token));
-        localStorage.setItem("@KenzieHub:userId", JSON.stringify(user["id"]));
+      api.defaults.headers.authorization = `Bearer ${token}`;
+      localStorage.setItem("@KenzieHub:token", JSON.stringify(token));
 
-        setAuthenticated(true);
-        setUserInfo(user);
-        setLoading(false);
+      setAuthenticated(true);
+      setUserInfo(user);
+      setLoading(false);
 
-        navigate("/dashboard");
-      })
-      .catch((_) => {
-        setLoading(false);
+      navigate("/dashboard", { replace: true });
+    } catch (_) {
+      setLoading(false);
 
-        toast.error("Email ou senha inválidos.", {
-          style: {
-            color: "var(--grey_0)",
-            background: "var(--grey_2)",
-          },
-          iconTheme: {
-            primary: "var(--negative)",
-            secondary: "var(--grey_2)",
-          },
-        });
+      toast.error("Email ou senha inválidos.", {
+        style: {
+          color: "var(--grey_0)",
+          background: "var(--grey_2)",
+        },
+        iconTheme: {
+          primary: "var(--negative)",
+          secondary: "var(--grey_2)",
+        },
       });
+    }
   };
 
-  const signup = (data) => {
-    api
-      .post("/users", data)
-      .then((_) => {
-        toast.success("Conta criada com sucesso", {
-          style: {
-            color: "var(--grey_0)",
-            background: "var(--grey_2)",
-          },
-          iconTheme: {
-            primary: "var(--success)",
-            secondary: "var(--grey_2)",
-          },
-        });
+  const signUp = async (data) => {
+    setLoading(true);
 
-        navigate("/");
-      })
-      .catch((_) =>
-        toast.error("Email já foi cadastrado", {
-          style: {
-            color: "var(--grey_0)",
-            background: "var(--grey_2)",
-          },
-          iconTheme: {
-            primary: "var(--negative)",
-            secondary: "var(--grey_2)",
-          },
-        })
-      );
+    try {
+      await api.post("/users", data);
+
+      toast.success("Conta criada com sucesso", {
+        style: {
+          color: "var(--grey_0)",
+          background: "var(--grey_2)",
+        },
+        iconTheme: {
+          primary: "var(--success)",
+          secondary: "var(--grey_2)",
+        },
+      });
+
+      setLoading(false);
+
+      navigate("/");
+    } catch (_) {
+      setLoading(false);
+
+      toast.error("Email já foi cadastrado", {
+        style: {
+          color: "var(--grey_0)",
+          background: "var(--grey_2)",
+        },
+        iconTheme: {
+          primary: "var(--negative)",
+          secondary: "var(--grey_2)",
+        },
+      });
+    }
   };
 
   const logout = () => {
     localStorage.clear("@KenzieHub:token");
-    localStorage.clear("@KenzieHub:userId");
 
     setAuthenticated(false);
 
@@ -87,38 +88,43 @@ const UserProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    setLoading(true);
+    const loadUser = async () => {
+      const token = JSON.parse(localStorage.getItem("@KenzieHub:token"));
 
-    const token = JSON.parse(localStorage.getItem("@KenzieHub:token")) || "";
+      if (token) {
+        setLoading(true);
 
-    api.defaults.headers.authorization = `Bearer ${token}`;
+        try {
+          api.defaults.headers.authorization = `Bearer ${token}`;
 
-    api
-      .get("/profile")
-      .then((response) => {
-        setUserInfo(response["data"]);
-        setLoading(false);
-      })
-      .catch((_) => {
-        localStorage.clear("@KenzieHub:token");
-        localStorage.clear("@KenzieHub:userId");
-        setLoading(false);
-      });
+          const { data } = await api.get("/profile");
 
-    token && setAuthenticated(true);
+          setAuthenticated(true);
+          setUserInfo(data);
+          setLoading(false);
+
+          navigate("/dashboard");
+        } catch (_) {
+          localStorage.clear("@KenzieHub:token");
+          localStorage.clear("@KenzieHub:userId");
+
+          setLoading(false);
+        }
+      }
+    };
+
+    loadUser();
   }, []);
 
   const value = {
     authenticated,
     setAuthenticated,
+    userInfo,
     loading,
     login,
-    signup,
+    signUp,
     logout,
-    userInfo,
   };
-
-  console.log(userInfo)
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
 };

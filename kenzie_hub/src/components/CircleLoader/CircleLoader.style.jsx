@@ -1,8 +1,6 @@
 import styled from "styled-components";
 import { motion } from "framer-motion";
 
-// import styles from "../../styles/_export.module.scss";
-
 export const CircleBox = styled.div`
   position: relative;
   width: 5rem;

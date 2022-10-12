@@ -1,6 +1,5 @@
 import { useContext, useRef } from "react";
 import { useForm } from "react-hook-form";
-import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { AiOutlineClose } from "react-icons/ai";
 
@@ -10,39 +9,31 @@ import Select from "@components/Select";
 import { Button } from "@components/Button";
 import CircleLoader from "@components/CircleLoader";
 import { TechContext } from "@contexts/TechContext";
+import { addTechFormSchema } from "@validations/addTech";
+import { editTechFormSchema } from "@validations/editTech";
 
 const status = ["Iniciante", "Intermediário", "Avançado"];
 
-const Modal = ({ setIsOpen, type, tech }) => {
-  const { addTech, editTech, deleteTech, loading } = useContext(TechContext);
-
+const Modal = () => {
+  const { loading, type, tech, addTech, editTech, deleteTech, closeTechModal } =
+    useContext(TechContext);
   const selectRef = useRef(type === "add" ? "Iniciante" : "");
 
-  const formSchema = yup.object().shape({
-    title: yup.string().required("Campo obrigatório"),
-    status: yup.string().required("Campo obrigatório"),
-  });
-
-  const formSchemaEdit = yup.object().shape({
-    title: yup.string(),
-    status: yup.string(),
-  });
-
   const {
-    register,
-    handleSubmit,
-    formState: { errors, isValid },
+    register: addTechRegister,
+    handleSubmit: addTechHandleSubmit,
+    formState: { errors: addTechErrors, isValid: addTechIsValid },
   } = useForm({
-    resolver: yupResolver(formSchema),
+    resolver: yupResolver(addTechFormSchema),
     mode: "onChange",
   });
 
   const {
-    register: registerEdit,
-    handleSubmit: handleSubmitEdit,
-    formState: { errors: errorsEdit, isDirty },
+    register: editTechRegister,
+    handleSubmit: editTechHandleSubmit,
+    formState: { isDirty: editTechIsDirty },
   } = useForm({
-    resolver: yupResolver(formSchemaEdit),
+    resolver: yupResolver(editTechFormSchema),
     mode: "onChange",
   });
 
@@ -55,13 +46,10 @@ const Modal = ({ setIsOpen, type, tech }) => {
     addTech(data);
   };
 
-  const onSubmitEditTech = ({ title }) => {
+  const onSubmitEditTech = () => {
     const data = {
-      ...(title && { title }),
-      ...(selectRef.current && { status: selectRef.current }),
+      status: selectRef.current,
     };
-
-    console.log(data);
 
     editTech(tech["id"], data);
   };
@@ -72,9 +60,9 @@ const Modal = ({ setIsOpen, type, tech }) => {
         <>
           <div className="modal-header">
             <h3>Cadastrar Tecnologia</h3>
-            <AiOutlineClose onClick={() => setIsOpen(false)} />
+            <AiOutlineClose onClick={closeTechModal} />
           </div>
-          <form onSubmit={handleSubmit(onSubmitAddTech)}>
+          <form onSubmit={addTechHandleSubmit(onSubmitAddTech)}>
             {loading ? (
               <CircleLoader />
             ) : (
@@ -84,17 +72,17 @@ const Modal = ({ setIsOpen, type, tech }) => {
                   label="Nome"
                   placeholder="Digite o nome da tecnologia"
                   type="text"
-                  register={register}
-                  error={errors["title"]?.message}
+                  register={addTechRegister}
+                  error={addTechErrors["title"]?.message}
                 />
                 <Select
                   name="status"
                   label="Selecionar status"
-                  register={register}
-                  options={status}
                   selectRef={selectRef}
+                  options={status}
+                  register={addTechRegister}
                 />
-                <Button pinkSchema type="submit" disabled={!isValid}>
+                <Button pinkSchema type="submit" disabled={!addTechIsValid}>
                   Cadastrar
                 </Button>
               </>
@@ -105,9 +93,9 @@ const Modal = ({ setIsOpen, type, tech }) => {
         <>
           <div className="modal-header">
             <h3>Detalhes da Tecnologia</h3>
-            <AiOutlineClose onClick={() => setIsOpen(false)} />
+            <AiOutlineClose onClick={closeTechModal} />
           </div>
-          <form onSubmit={handleSubmitEdit(onSubmitEditTech)}>
+          <form onSubmit={editTechHandleSubmit(onSubmitEditTech)}>
             {loading ? (
               <CircleLoader />
             ) : (
@@ -117,20 +105,18 @@ const Modal = ({ setIsOpen, type, tech }) => {
                   label="Nome da Tecnologia"
                   placeholder={tech["title"]}
                   type="text"
-                  register={registerEdit}
-                  error={errorsEdit["title"]?.message}
                   readOnly
                 />
                 <Select
                   name="status"
                   label="Status"
-                  register={registerEdit}
+                  register={editTechRegister}
                   options={status}
                   placeholder={tech["status"]}
                   selectRef={selectRef}
                 />
                 <div className="button-container">
-                  <Button pinkSchema type="submit" disabled={!isDirty}>
+                  <Button pinkSchema type="submit" disabled={!editTechIsDirty}>
                     Salvar alterações
                   </Button>
                   <Button

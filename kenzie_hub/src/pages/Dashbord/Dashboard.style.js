@@ -11,14 +11,14 @@ export const Container = styled.div`
 
 export const ModalContainer = styled.div`
   position: absolute;
+  z-index: 2;
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 2;
   width: 100%;
   height: 100%;
   padding: 0 12px;
-  background-color: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.5);
 `;
 
 export const ContentContainer = styled(Container)`

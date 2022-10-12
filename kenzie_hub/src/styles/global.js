@@ -6,6 +6,7 @@ export default createGlobalStyle`
         padding: 0;
         box-sizing: border-box;
         outline: 0;
+        font-family: 'Inter', sans-serif;
     }
 
     :root {
@@ -24,7 +25,6 @@ export default createGlobalStyle`
     }
 
     body {
-        font-family: 'Inter', sans-serif;
         color: var(--grey_0);
         background: var(--grey_4);
     }
@@ -35,5 +35,9 @@ export default createGlobalStyle`
 
     ul {
         list-style: none;
+    }
+
+    a {
+        text-decoration: none;
     }
 `;

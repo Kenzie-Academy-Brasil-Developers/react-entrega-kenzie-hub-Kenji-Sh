@@ -2,7 +2,6 @@ import styled, { keyframes } from "styled-components";
 
 export const Container = styled.div`
   display: flex;
-  align-items: stretch;
   height: 100vh;
 `;
 
@@ -21,6 +20,35 @@ export const Content = styled.div`
     justify-content: space-between;
     width: 100%;
     margin-bottom: 36px;
+
+    a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: fit-content;
+      height: 40px;
+      padding: 0 16px;
+      border: solid 2px var(--grey_3);
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      line-height: 28px;
+      color: var(--grey_0);
+      background: var(--grey_3);
+      transition: 0.5s;
+
+      :hover {
+        border-color: var(--grey_2);
+        background: var(--grey_2);
+      }
+    }
+  }
+
+  .loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 516px;
   }
 `;
 

@@ -11,7 +11,7 @@ export const StyledLi = styled.li`
   transition: 0.3s;
   cursor: pointer;
 
-  :hover {
+  &:hover {
     background: var(--grey_2);
 
     p {

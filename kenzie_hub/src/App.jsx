@@ -1,5 +1,7 @@
 import { Toaster } from "react-hot-toast";
+
 import GlobalStyle from "@styles/global";
+import Providers from "@contexts";
 import AppRouter from "@routes/router";
 
 const App = () => {
@@ -7,7 +9,9 @@ const App = () => {
     <>
       <GlobalStyle />
       <Toaster position="top-right" reverseOrder={false} />
-      <AppRouter />
+      <Providers>
+        <AppRouter />
+      </Providers>
     </>
   );
 };
