@@ -1,34 +1,31 @@
 import { useState } from "react";
 import { Container, StyledSelect, Options } from "./Select.style";
 
-const Select = ({ label, name, register }) => {
+const Select = ({ name, label, register, options, placeholder, selectRef }) => {
   const [isActive, setIsActive] = useState(false);
-  const [value, setValue] = useState(
-    "Primeiro módulo (Introdução ao Frontend)"
-  );
-
-  const handleToggle = () => {
-    setIsActive(!isActive);
-  };
 
   return (
     <Container>
       <label htmlFor={name}>{label}</label>
-      <StyledSelect isActive={isActive} onClick={handleToggle}>
-        <input name={name} value={value} {...register(name)} readOnly />
+      <StyledSelect isActive={isActive} onClick={() => setIsActive(!isActive)}>
+        <input
+          ref={selectRef}
+          value={selectRef.current}
+          {...register(name)}
+          placeholder={placeholder}
+          readOnly
+        />
         <Options isActive={isActive}>
-          <li onClick={(e) => setValue(e.target.textContent)}>
-            Primeiro módulo (Introdução ao Frontend)
-          </li>
-          <li onClick={(e) => setValue(e.target.textContent)}>
-            Segundo módulo (Frontend Avançado)
-          </li>
-          <li onClick={(e) => setValue(e.target.textContent)}>
-            Terceiro módulo (Introdução ao Backend)
-          </li>
-          <li onClick={(e) => setValue(e.target.textContent)}>
-            Quarto módulo (Backend Avançado)
-          </li>
+          {options.map((option) => (
+            <li
+              key={option}
+              onClick={() => {
+                selectRef.current = option;
+              }}
+            >
+              {option}
+            </li>
+          ))}
         </Options>
       </StyledSelect>
     </Container>

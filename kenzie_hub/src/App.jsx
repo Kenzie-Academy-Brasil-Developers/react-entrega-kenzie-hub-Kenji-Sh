@@ -1,15 +1,19 @@
 import { Toaster } from "react-hot-toast";
+
 import GlobalStyle from "@styles/global";
+import Providers from "@contexts";
 import AppRouter from "@routes/router";
 
-function App() {
+const App = () => {
   return (
     <>
       <GlobalStyle />
       <Toaster position="top-right" reverseOrder={false} />
-      <AppRouter />
+      <Providers>
+        <AppRouter />
+      </Providers>
     </>
   );
-}
+};
 
 export default App;

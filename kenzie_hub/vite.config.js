@@ -8,10 +8,12 @@ export default defineConfig({
     alias: {
       "@assets": path.resolve(__dirname, "./src/assets"),
       "@components": path.resolve(__dirname, "./src/components"),
+      "@contexts": path.resolve(__dirname, "./src/contexts"),
       "@pages": path.resolve(__dirname, "./src/pages"),
       "@routes": path.resolve(__dirname, "./src/routes"),
       "@services": path.resolve(__dirname, "./src/services"),
       "@styles": path.resolve(__dirname, "./src/styles"),
+      "@validations": path.resolve(__dirname, "./src/validations"),
     },
   },
   plugins: [react()],

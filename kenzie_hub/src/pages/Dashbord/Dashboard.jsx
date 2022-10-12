@@ -1,4 +1,5 @@
-import { Navigate, useNavigate } from "react-router-dom";
+import { useContext, useState } from "react";
+import { AiOutlinePlus } from "react-icons/ai";
 
 import Logo from "@assets/Logo.svg";
 import {
@@ -7,51 +8,59 @@ import {
   Navbar,
   Header,
   Main,
+  ModalContainer,
 } from "./Dashboard.style";
+import TechList from "./TechList";
+import Modal from "@components/Modal";
 import { SmallButton } from "@components/Button";
+import CircleLoader from "@components/CircleLoader";
+import { UserContext } from "@contexts/UserContext";
+import { TechContext } from "@contexts/TechContext";
 
-const Dashboard = ({ authenticated, setAuthenticated }) => {
-  if (!authenticated) {
-    return <Navigate to="/" />;
-  }
-
-  const navigate = useNavigate();
-  const user = JSON.parse(sessionStorage.getItem("@KenzieHub:user"));
-
-  const handleLogout = () => {
-    localStorage.clear("@KenzieHub:token");
-    localStorage.clear("@KenzieHub:userId");
-    sessionStorage.clear("@KenzieHub:user");
-
-    setAuthenticated(false);
-    setUser(null);
-
-    navigate(-1);
-  };
+const Dashboard = () => {
+  const { logout, userInfo, loading } = useContext(UserContext);
+  const { isOpen, openTechModal } = useContext(TechContext);
 
   return (
     <Container>
-      <Navbar>
-        <ContentContainer>
-          <img src={Logo} alt="logo" />
-          <SmallButton onClick={handleLogout}>Sair</SmallButton>
-        </ContentContainer>
-      </Navbar>
-      <Header>
-        <ContentContainer>
-          <h1>Olá, {user["name"]}</h1>
-          <p>{user["course_module"]}</p>
-        </ContentContainer>
-      </Header>
-      <Main>
-        <ContentContainer>
-          <h2>Que pena! Estamos em desenvolvimento :(</h2>
-          <p>
-            Nossa aplicação está em desenvolvimento, em breve teremos
-            novidades!!!
-          </p>
-        </ContentContainer>
-      </Main>
+      {loading ? (
+        <CircleLoader />
+      ) : (
+        <>
+          {isOpen && (
+            <ModalContainer>
+              <Modal />
+            </ModalContainer>
+          )}
+          <Navbar>
+            <ContentContainer>
+              <img src={Logo} alt="logo" />
+              <SmallButton onClick={() => logout()}>Sair</SmallButton>
+            </ContentContainer>
+          </Navbar>
+          <Header>
+            <ContentContainer>
+              <h1>Olá, {userInfo.name}</h1>
+              <p>{userInfo.course_module}</p>
+            </ContentContainer>
+          </Header>
+          <Main>
+            <ContentContainer>
+              <div>
+                <h2>Tecnologias</h2>
+                <SmallButton
+                  onClick={() => {
+                    openTechModal("add");
+                  }}
+                >
+                  <AiOutlinePlus />
+                </SmallButton>
+              </div>
+              <TechList techs={userInfo["techs"]} />
+            </ContentContainer>
+          </Main>
+        </>
+      )}
     </Container>
   );
 };

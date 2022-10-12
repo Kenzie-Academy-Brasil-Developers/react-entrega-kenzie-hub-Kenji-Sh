@@ -8,7 +8,7 @@ const Input = ({ withBorder, label, name, register, error = "", ...rest }) => {
         {!!error && <span> - {error}</span>}
       </label>
       <InputContainer withBorder={withBorder}>
-        <input name={name} {...register(name)} {...rest} />
+        <input name={name} {...register && {...register(name)}} {...rest} />
       </InputContainer>
     </Container>
   );

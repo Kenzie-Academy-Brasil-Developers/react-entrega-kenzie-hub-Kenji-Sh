@@ -2,7 +2,6 @@ import styled, { keyframes } from "styled-components";
 
 export const Container = styled.div`
   display: flex;
-  align-items: stretch;
   height: 100vh;
 `;
 
@@ -19,11 +18,32 @@ export const Content = styled.div`
     margin-bottom: 36px;
   }
 
-  > div {
+  .loading {
     display: flex;
     align-items: center;
     justify-content: center;
     height: 516px;
+  }
+
+  a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 48px;
+    border: solid 2px var(--grey_1);
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 26px;
+    color: var(--grey_0);
+    background: var(--grey_1);
+    transition: 0.5s;
+
+    :hover {
+      border-color: var(--grey_2);
+      background: var(--grey_2);
+    }
   }
 `;
 
