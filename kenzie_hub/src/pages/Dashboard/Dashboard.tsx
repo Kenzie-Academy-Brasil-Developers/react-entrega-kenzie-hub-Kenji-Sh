@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { AiOutlinePlus } from "react-icons/ai";
 
 import {
@@ -14,13 +14,15 @@ import { TechContext } from "@contexts/TechContext";
 import { UserContext } from "@contexts/UserContext";
 import { iTechContext } from "@customTypes/techContext";
 import { iUserContext } from "@customTypes/userContext";
+// @ts-ignore
 import Logo from "@assets/Logo.svg";
 import TechList from "./TechList";
 import Modal from "@components/Modal";
 import CircleLoader from "@components/CircleLoader";
 
 const Dashboard = () => {
-  const { logout, userInfo, loading } = useContext<iUserContext>(UserContext);
+  const { logout, userInfo, techList, loading } =
+    useContext<iUserContext>(UserContext);
   const { isOpen, openTechModal } = useContext<iTechContext>(TechContext);
 
   return (
@@ -60,7 +62,7 @@ const Dashboard = () => {
                   <AiOutlinePlus />
                 </SmallButton>
               </div>
-              <TechList techs={userInfo?.techs} />
+              <TechList techs={techList} />
             </ContentContainer>
           </Main>
         </>

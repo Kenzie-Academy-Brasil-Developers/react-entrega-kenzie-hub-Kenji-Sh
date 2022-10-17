@@ -1,7 +1,12 @@
 import { createContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { iUser, iLoginResponse, iGetUserResponse } from "@customTypes/api";
+import {
+  iUser,
+  iLoginResponse,
+  iGetUserResponse,
+  iTech,
+} from "@customTypes/api";
 import { iUserFormValue } from "@customTypes/form";
 import { iUserContext } from "@customTypes/userContext";
 import api from "@services/api";
@@ -17,6 +22,7 @@ const UserProvider = ({ children }: iUserProviderProps) => {
   const [authenticated, setAuthenticated] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [userInfo, setUserInfo] = useState<iUser | null>(null);
+  const [techList, setTechList] = useState<iTech[]>([]);
   const navigate = useNavigate();
 
   const login = async (formData: iUserFormValue) => {
@@ -31,6 +37,7 @@ const UserProvider = ({ children }: iUserProviderProps) => {
 
       setAuthenticated(true);
       setUserInfo(user);
+      setTechList(user["techs"]);
 
       navigate("/dashboard", { replace: true });
       setLoading(false);
@@ -84,6 +91,7 @@ const UserProvider = ({ children }: iUserProviderProps) => {
           setAuthenticated(true);
           setLoading(false);
           setUserInfo(data);
+          setTechList(data["techs"]);
 
           navigate("/dashboard");
         } catch (_) {
@@ -102,6 +110,8 @@ const UserProvider = ({ children }: iUserProviderProps) => {
     authenticated,
     setAuthenticated,
     userInfo,
+    techList,
+    setTechList,
     loading,
     login,
     signUp,

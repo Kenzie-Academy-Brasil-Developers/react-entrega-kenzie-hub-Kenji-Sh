@@ -1,7 +1,7 @@
-import { createContext, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { createContext, useState, useContext } from "react";
 
-import { iTech } from "@customTypes/api";
+import { UserContext } from "@contexts/UserContext";
+import { iGetUserResponse, iTech } from "@customTypes/api";
 import { iTechFormValue } from "@customTypes/form";
 import { iTechContext } from "@customTypes/techContext";
 import api from "@services/api";
@@ -14,11 +14,11 @@ type iTechProviderProps = {
 export const TechContext = createContext({} as iTechContext);
 
 const TechProvider = ({ children }: iTechProviderProps) => {
+  const { setTechList } = useContext(UserContext);
   const [loading, setLoading] = useState<boolean>(false);
   const [type, setType] = useState<string | null>(null);
   const [tech, setTech] = useState<iTech | null>();
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const navigate = useNavigate();
 
   const addTech = async (formData: iTechFormValue) => {
     setLoading(true);
@@ -28,7 +28,9 @@ const TechProvider = ({ children }: iTechProviderProps) => {
 
       useToast("success", "Tecnologia criada com sucesso!");
 
-      navigate(0);
+      updateTechList();
+      closeTechModal();
+      setLoading(false);
     } catch (_) {
       setLoading(false);
 
@@ -44,7 +46,9 @@ const TechProvider = ({ children }: iTechProviderProps) => {
 
       useToast("success", "Tecnologia atualizada com sucesso!");
 
-      navigate(0);
+      updateTechList();
+      closeTechModal();
+      setLoading(false);
     } catch (_) {
       setLoading(false);
 
@@ -60,7 +64,9 @@ const TechProvider = ({ children }: iTechProviderProps) => {
 
       useToast("success", "Tecnologia excluída com sucesso!");
 
-      navigate(0);
+      updateTechList();
+      closeTechModal();
+      setLoading(false);
     } catch (_) {
       setLoading(false);
 
@@ -78,6 +84,12 @@ const TechProvider = ({ children }: iTechProviderProps) => {
     setType(null);
     setTech(null);
     setIsOpen(false);
+  };
+
+  const updateTechList = async () => {
+    const { data }: iGetUserResponse = await api.get("/profile");
+
+    setTechList(data["techs"]);
   };
 
   const value = {

@@ -9,6 +9,7 @@ import { UserContext } from "@contexts/UserContext";
 import { iUserFormValue } from "@customTypes/form";
 import { iUserContext } from "@customTypes/userContext";
 import { signUpFormSchema } from "@validations/signUp";
+// @ts-ignore
 import Logo from "@assets/Logo.svg";
 import Input from "@components/Input";
 import Select from "@components/Select";

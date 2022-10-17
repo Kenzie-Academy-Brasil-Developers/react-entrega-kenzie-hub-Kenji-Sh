@@ -109,7 +109,7 @@ const Modal = () => {
                   label="Status"
                   register={editTechRegister}
                   options={status}
-                  placeholder={tech?.title}
+                  placeholder={tech?.status}
                   selectRef={selectRef}
                 />
                 <div className="button-container">
@@ -118,7 +118,7 @@ const Modal = () => {
                   </Button>
                   <Button
                     onClick={() => {
-                      deleteTech(tech?.title);
+                      deleteTech(tech?.id);
                     }}
                   >
                     Excluir
