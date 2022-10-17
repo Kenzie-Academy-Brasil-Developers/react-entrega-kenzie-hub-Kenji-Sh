@@ -1,8 +1,24 @@
 import { useState } from "react";
 import { Container, StyledSelect, Options } from "./Select.style";
 
-const Select = ({ name, label, register, options, placeholder, selectRef }) => {
-  const [isActive, setIsActive] = useState(false);
+type iSelectProps = {
+  name: string;
+  label: string;
+  register: Function;
+  options: string[];
+  placeholder?: string;
+  selectRef: React.MutableRefObject<string>;
+};
+
+const Select = ({
+  name,
+  label,
+  register,
+  options,
+  placeholder,
+  selectRef,
+}: iSelectProps) => {
+  const [isActive, setIsActive] = useState<boolean>(false);
 
   return (
     <Container>
@@ -10,9 +26,9 @@ const Select = ({ name, label, register, options, placeholder, selectRef }) => {
       <StyledSelect isActive={isActive} onClick={() => setIsActive(!isActive)}>
         <input
           ref={selectRef}
-          value={selectRef.current}
-          {...register(name)}
+          value={selectRef["current"]}
           placeholder={placeholder}
+          {...register(name)}
           readOnly
         />
         <Options isActive={isActive}>
@@ -20,7 +36,7 @@ const Select = ({ name, label, register, options, placeholder, selectRef }) => {
             <li
               key={option}
               onClick={() => {
-                selectRef.current = option;
+                selectRef["current"] = option;
               }}
             >
               {option}

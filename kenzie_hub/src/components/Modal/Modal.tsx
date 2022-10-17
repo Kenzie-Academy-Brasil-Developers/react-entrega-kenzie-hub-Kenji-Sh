@@ -1,29 +1,31 @@
 import { useContext, useRef } from "react";
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { AiOutlineClose } from "react-icons/ai";
 
 import { ModalContent } from "./Modal.style";
-import Input from "@components/Input";
-import Select from "@components/Select";
 import { Button } from "@components/Button";
-import CircleLoader from "@components/CircleLoader";
 import { TechContext } from "@contexts/TechContext";
+import { iTechFormValue } from "@customTypes/form";
+import { iTechContext } from "@customTypes/techContext";
 import { addTechFormSchema } from "@validations/addTech";
 import { editTechFormSchema } from "@validations/editTech";
+import Input from "@components/Input";
+import Select from "@components/Select";
+import CircleLoader from "@components/CircleLoader";
 
-const status = ["Iniciante", "Intermediário", "Avançado"];
+const status: string[] = ["Iniciante", "Intermediário", "Avançado"];
 
 const Modal = () => {
   const { loading, type, tech, addTech, editTech, deleteTech, closeTechModal } =
-    useContext(TechContext);
-  const selectRef = useRef(type === "add" ? "Iniciante" : "");
+    useContext<iTechContext>(TechContext);
+  const selectRef = useRef<string>(type === "add" ? "Iniciante" : "");
 
   const {
     register: addTechRegister,
     handleSubmit: addTechHandleSubmit,
     formState: { errors: addTechErrors, isValid: addTechIsValid },
-  } = useForm({
+  } = useForm<iTechFormValue>({
     resolver: yupResolver(addTechFormSchema),
     mode: "onChange",
   });
@@ -32,26 +34,21 @@ const Modal = () => {
     register: editTechRegister,
     handleSubmit: editTechHandleSubmit,
     formState: { isDirty: editTechIsDirty },
-  } = useForm({
+  } = useForm<iTechFormValue>({
     resolver: yupResolver(editTechFormSchema),
     mode: "onChange",
   });
 
-  const onSubmitAddTech = ({ title }) => {
-    const data = {
-      title,
-      status: selectRef.current,
-    };
-
+  const onSubmitAddTech: SubmitHandler<iTechFormValue> = (data) => {
     addTech(data);
   };
 
   const onSubmitEditTech = () => {
-    const data = {
-      status: selectRef.current,
+    const data: iTechFormValue = {
+      status: selectRef["current"],
     };
 
-    editTech(tech["id"], data);
+    editTech(data, tech?.id);
   };
 
   return (
@@ -103,7 +100,7 @@ const Modal = () => {
                 <Input
                   name="title"
                   label="Nome da Tecnologia"
-                  placeholder={tech["title"]}
+                  placeholder={tech?.title}
                   type="text"
                   readOnly
                 />
@@ -112,7 +109,7 @@ const Modal = () => {
                   label="Status"
                   register={editTechRegister}
                   options={status}
-                  placeholder={tech["status"]}
+                  placeholder={tech?.title}
                   selectRef={selectRef}
                 />
                 <div className="button-container">
@@ -121,7 +118,7 @@ const Modal = () => {
                   </Button>
                   <Button
                     onClick={() => {
-                      deleteTech(tech["id"]);
+                      deleteTech(tech?.title);
                     }}
                   >
                     Excluir
