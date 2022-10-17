@@ -1,7 +1,7 @@
 import { Toaster } from "react-hot-toast";
 
 import GlobalStyle from "@styles/global";
-import Providers from "@contexts";
+import Providers from "@contexts/index";
 import AppRouter from "@routes/router";
 
 const App = () => {
