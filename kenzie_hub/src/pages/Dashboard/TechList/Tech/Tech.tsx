@@ -2,9 +2,11 @@ import { useContext } from "react";
 
 import { StyledLi } from "./Tech.style";
 import { TechContext } from "@contexts/TechContext";
+import { iTechContext } from "@customTypes/techContext";
+import { iTech } from "@customTypes/api";
 
-const Tech = ({ id, title, status }) => {
-  const { openTechModal } = useContext(TechContext);
+const Tech = ({ id, title, status }: iTech) => {
+  const { openTechModal } = useContext<iTechContext>(TechContext);
 
   return (
     <StyledLi

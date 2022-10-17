@@ -1,18 +1,20 @@
 import { useContext, useRef } from "react";
 import { Link } from "react-router-dom";
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 
-import Logo from "@assets/Logo.svg";
 import { Container, Content, AnimationContainer } from "./SignUp.style";
-import Input from "@components/Input";
 import { Button } from "@components/Button";
+import { UserContext } from "@contexts/UserContext";
+import { iUserFormValue } from "@customTypes/form";
+import { iUserContext } from "@customTypes/userContext";
+import { signUpFormSchema } from "@validations/signUp";
+import Logo from "@assets/Logo.svg";
+import Input from "@components/Input";
 import Select from "@components/Select";
 import CircleLoader from "@components/CircleLoader";
-import { UserContext } from "@contexts/UserContext";
-import { signUpFormSchema } from "@validations/signUp";
 
-const moduleOptions = [
+const moduleOptions: string[] = [
   "Primeiro módulo (Introdução ao Frontend)",
   "Segundo módulo (Frontend Avançado)",
   "Terceiro módulo (Introdução ao Backend)",
@@ -20,27 +22,20 @@ const moduleOptions = [
 ];
 
 const SignUp = () => {
-  const { signUp, loading } = useContext(UserContext);
-  const selectRef = useRef(moduleOptions[0]);
+  const { signUp, loading } = useContext<iUserContext>(UserContext);
+  const selectRef = useRef<string>(moduleOptions[0]);
 
   const {
     register: signUpRegister,
     handleSubmit: signUpHandleSubmit,
     formState: { errors: signUpErrors, isValid: signUpIsValid },
-  } = useForm({
+  } = useForm<iUserFormValue>({
     resolver: yupResolver(signUpFormSchema),
     mode: "onChange",
   });
 
-  const onSubmit = ({ name, email, password, bio, contact }) => {
-    const data = {
-      name,
-      email,
-      password,
-      bio,
-      contact,
-      course_module: selectRef.current,
-    };
+  const onSubmit: SubmitHandler<iUserFormValue> = (data) => {
+    delete data["passwordConfirm"];
 
     signUp(data);
   };
@@ -50,7 +45,7 @@ const SignUp = () => {
       <Content>
         <div>
           <img src={Logo} alt="logo" />
-          <Link to={-1}>Voltar</Link>
+          <Link to="/">Voltar</Link>
         </div>
         {loading ? (
           <div className="loading">
@@ -59,7 +54,7 @@ const SignUp = () => {
         ) : (
           <AnimationContainer>
             <form onSubmit={signUpHandleSubmit(onSubmit)}>
-              <h1>Crie sua conta</h1>
+              <h1>Crie a sua conta</h1>
               <p>Rápido e grátis, vamos nessa</p>
               <Input
                 name="name"
@@ -110,7 +105,7 @@ const SignUp = () => {
                 error={signUpErrors["contact"]?.message}
               />
               <Select
-                name="moduleSelect"
+                name="course_module"
                 label="Selecionar módulo"
                 selectRef={selectRef}
                 options={moduleOptions}

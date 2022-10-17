@@ -1,29 +1,31 @@
 import { useContext } from "react";
 import { Link } from "react-router-dom";
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 
-import Logo from "@assets/Logo.svg";
 import { Container, Content, AnimationContainer } from "./Login.style";
-import Input from "@components/Input";
 import { Button } from "@components/Button";
-import CircleLoader from "@components/CircleLoader";
 import { UserContext } from "@contexts/UserContext";
+import { iUserFormValue } from "@customTypes/form";
+import { iUserContext } from "@customTypes/userContext";
 import { loginFormSchema } from "@validations/login";
+import Logo from "@assets/Logo.svg";
+import Input from "@components/Input";
+import CircleLoader from "@components/CircleLoader";
 
 const Login = () => {
-  const { login, loading } = useContext(UserContext);
+  const { login, loading } = useContext<iUserContext>(UserContext);
 
   const {
     register: loginRegister,
     handleSubmit: loginHandleSubmit,
     formState: { errors: loginErrors, isValid: loginIsValid },
-  } = useForm({
+  } = useForm<iUserFormValue>({
     resolver: yupResolver(loginFormSchema),
     mode: "onChange",
   });
 
-  const onSubmit = (data) => {
+  const onSubmit: SubmitHandler<iUserFormValue> = (data) => {
     login(data);
   };
 
