@@ -1,10 +1,15 @@
 import { StyledUl } from "./TechList.style";
 import Tech from "./Tech";
+import { iTech } from "@customTypes/api";
 
-const TechList = ({ techs }) => {
+type iTechListProps = {
+  techs?: iTech[];
+};
+
+const TechList = ({ techs }: iTechListProps) => {
   return (
     <StyledUl>
-      {techs.length ? (
+      {techs?.length ? (
         techs.map(({ id, title, status }) => (
           <Tech key={id} id={id} title={title} status={status} />
         ))

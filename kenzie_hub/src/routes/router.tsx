@@ -1,9 +1,9 @@
 import { Routes, Route } from "react-router-dom";
 
+import ProtectedRoutes from "@components/ProtectedRoutes";
 import Login from "@pages/Login";
 import SignUp from "@pages/SignUp";
-import Dashboard from "@pages/Dashbord";
-import ProtectedRoutes from "@components/ProtectedRoutes";
+import Dashboard from "@pages/Dashboard";
 
 export default () => {
   return (

@@ -1,7 +1,6 @@
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { AiOutlinePlus } from "react-icons/ai";
 
-import Logo from "@assets/Logo.svg";
 import {
   Container,
   ContentContainer,
@@ -10,21 +9,28 @@ import {
   Main,
   ModalContainer,
 } from "./Dashboard.style";
+import { SmallButton } from "@components/Button";
+import { TechContext } from "@contexts/TechContext";
+import { UserContext } from "@contexts/UserContext";
+import { iTechContext } from "@customTypes/techContext";
+import { iUserContext } from "@customTypes/userContext";
+// @ts-ignore
+import Logo from "@assets/Logo.svg";
 import TechList from "./TechList";
 import Modal from "@components/Modal";
-import { SmallButton } from "@components/Button";
 import CircleLoader from "@components/CircleLoader";
-import { UserContext } from "@contexts/UserContext";
-import { TechContext } from "@contexts/TechContext";
 
 const Dashboard = () => {
-  const { logout, userInfo, loading } = useContext(UserContext);
-  const { isOpen, openTechModal } = useContext(TechContext);
+  const { logout, userInfo, techList, loading } =
+    useContext<iUserContext>(UserContext);
+  const { isOpen, openTechModal } = useContext<iTechContext>(TechContext);
 
   return (
     <Container>
       {loading ? (
-        <CircleLoader />
+        <div className="loading">
+          <CircleLoader />
+        </div>
       ) : (
         <>
           {isOpen && (
@@ -40,8 +46,8 @@ const Dashboard = () => {
           </Navbar>
           <Header>
             <ContentContainer>
-              <h1>Olá, {userInfo.name}</h1>
-              <p>{userInfo.course_module}</p>
+              <h1>Olá, {userInfo?.name}</h1>
+              <p>{userInfo?.course_module}</p>
             </ContentContainer>
           </Header>
           <Main>
@@ -56,7 +62,7 @@ const Dashboard = () => {
                   <AiOutlinePlus />
                 </SmallButton>
               </div>
-              <TechList techs={userInfo["techs"]} />
+              <TechList techs={techList} />
             </ContentContainer>
           </Main>
         </>

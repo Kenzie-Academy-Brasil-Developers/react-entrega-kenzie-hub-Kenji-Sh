@@ -17,5 +17,5 @@ export const signUpFormSchema = yup.object().shape({
     .oneOf([yup.ref("password")], "As senhas não são iguais"),
   bio: yup.string().required("Campo obrigatório"),
   contact: yup.string().required("Campo obrigatório"),
-  moduleSelect: yup.string().required("Campo obrigatório"),
+  course_module: yup.string().required("Campo obrigatório"),
 });

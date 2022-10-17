@@ -1,19 +1,17 @@
 import styled from "styled-components";
 
+import { SelectStyle } from "@customTypes/styles";
+
 export const Container = styled.div`
   text-align: left;
 
   label {
     font-size: 14px;
     font-weight: 400;
-
-    span {
-      color: var(--negative);
-    }
   }
 `;
 
-export const StyledSelect = styled.div`
+export const StyledSelect = styled.div<SelectStyle>`
   position: relative;
   height: 48px;
   margin-top: 22px;
@@ -22,12 +20,12 @@ export const StyledSelect = styled.div`
     content: "";
     position: absolute;
     top: 50%;
-    right: 16px;
-    z-index: 1;
     transform: ${({ isActive }) =>
       isActive
         ? "translateY(-50%) rotate(-225deg)"
         : "translateY(-50%) rotate(-45deg)"};
+    right: 16px;
+    z-index: 1;
     width: 8px;
     height: 8px;
     border: solid 2px var(--grey_1);
@@ -43,20 +41,16 @@ export const StyledSelect = styled.div`
     left: 0;
     width: 100%;
     height: 100%;
-    padding: 0 42px 0 16px;
+    padding: 0 16px;
     border: none;
     border-radius: 8px;
     color: var(--grey_0);
     background-color: var(--grey_2);
     cursor: pointer;
-
-    &::placeholder {
-      color: var(--grey_1);
-    }
   }
 `;
 
-export const Options = styled.ul`
+export const Options = styled.ul<SelectStyle>`
   position: absolute;
   top: 47px;
   display: ${({ isActive }) => (isActive ? "block" : "none")};
